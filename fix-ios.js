@@ -24,7 +24,7 @@ target 'App' do
 
   # CRITICAL: Pin Google Ads SDK to v10 to work with AdMob Plugin v5
   # This prevents the build from fetching the broken v11 SDK
-  pod 'Google-Mobile-Ads-SDK', '~> 10.14.0'
+  pod 'Google-Mobile-Ads-SDK', '~> 10.12.0'
 end
 `;
 
@@ -32,7 +32,7 @@ try {
   // Only write if the directory exists (meaning ios platform was added)
   if (fs.existsSync(podfileDir)) {
     fs.writeFileSync(podfilePath, podfileContent);
-    console.log('✅ Podfile generated successfully. Google Ads SDK pinned to v10.14.0 (Stable).');
+    console.log('✅ Podfile generated successfully. Google Ads SDK pinned to v10.12.0 (Stable).');
   } else {
     console.log('⚠️ ios/App directory not found. Podfile generation skipped (will run later).');
   }
