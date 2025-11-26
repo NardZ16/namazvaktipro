@@ -9,7 +9,8 @@
     "cap:sync": "npx cap sync",
     "cap:open": "npx cap open ios",
     "cap:run:android": "npx cap run android",
-    "cap:run:ios": "npx cap run ios"
+    "cap:run:ios": "npx cap run ios",
+    "postinstall": "node fix-ios.js"
   },
   "dependencies": {
     "@capacitor-community/admob": "^6.0.0",
