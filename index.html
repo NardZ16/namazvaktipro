@@ -57,24 +57,22 @@
       }
     </style>
     <!-- 
-       GOOGLE ADSENSE SCRIPT (Web için - Mobilde nativeService engeller)
+      GOOGLE ADSENSE SCRIPT (Web için - Mobilde nativeService engeller)
     -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4319080566007267" crossorigin="anonymous"></script>
-    <!-- NOT: Appflow build alırken script type="module" src="/index.tsx" kullanılır, importmap kullanılmaz -->
-  <script type="importmap">
+<script type="importmap">
 {
   "imports": {
-    "@capacitor/cli": "https://aistudiocdn.com/@capacitor/cli@^7.4.4",
-    "vite": "https://aistudiocdn.com/vite@^7.2.4",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
     "@google/genai": "https://aistudiocdn.com/@google/genai@^1.30.0",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+    "@capacitor/cli": "https://aistudiocdn.com/@capacitor/cli@^7.4.4",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4"
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
   <body>
     <div id="root"></div>

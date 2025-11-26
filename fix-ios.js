@@ -6,7 +6,7 @@ const podfilePath = path.join(podfileDir, 'Podfile');
 
 // We explicitly define the pods here to bypass issues where 'capacitor_pods' helper
 // cannot be found or loaded in certain CI/CD environments (like Appflow).
-// This ensures the iOS build has exactly what it needs plus our specific SDK pin.
+// This ensures the iOS build has exactly what it needs.
 
 const podfileContent = `
 platform :ios, '13.0'
@@ -22,8 +22,8 @@ target 'App' do
   pod 'CapacitorHaptics', :path => '../../node_modules/@capacitor/haptics'
   pod 'CapacitorCommunityAdmob', :path => '../../node_modules/@capacitor-community/admob'
 
-  # FIXED: Pin Google Mobile Ads SDK to 10.14.0 to prevent v11 build errors
-  pod 'Google-Mobile-Ads-SDK', '~> 10.14.0'
+  # Google Mobile Ads SDK pin removed. 
+  # AdMob plugin v6.2.0+ supports Google Mobile Ads SDK v11 natively.
 end
 `;
 
@@ -31,7 +31,7 @@ try {
   // Only write if the directory exists (meaning ios platform was added)
   if (fs.existsSync(podfileDir)) {
     fs.writeFileSync(podfilePath, podfileContent);
-    console.log('✅ Podfile generated successfully (Explicit configuration). Google Ads SDK pinned.');
+    console.log('✅ Podfile generated successfully. Google Ads SDK v11 allowed.');
   } else {
     console.log('⚠️ ios/App directory not found. Podfile generation skipped (will run later).');
   }
