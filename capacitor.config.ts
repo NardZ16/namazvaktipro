@@ -1,3 +1,4 @@
+
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
@@ -9,8 +10,6 @@ const config: CapacitorConfig = {
   },
   plugins: {
     AdMob: {
-      // iOS Info.plist için App ID. Test veya Gerçek ID.
-      // Market gönderimi öncesi burayı kontrol edebilirsiniz.
       appId: "ca-app-pub-4319080566007267~XXXXXXXXXX" 
     }
   }

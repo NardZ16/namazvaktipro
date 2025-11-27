@@ -1,6 +1,7 @@
-
 // This service abstracts Native (Capacitor) features from Web features.
 // It allows the app to run on Web (using AdSense/Navigator) and Native (using AdMob/Haptics).
+
+import { AdMob, BannerAdOptions, BannerAdSize, BannerAdPosition, AdMobInitializationOptions } from '@capacitor-community/admob';
 
 // AdMob Official Test IDs
 const adConfig = {
@@ -60,13 +61,19 @@ export const initializeAdMob = async () => {
     if (!isNativePlatform()) return;
 
     try {
-        const AdMob = (window as any).Capacitor?.Plugins?.AdMob;
-        if (AdMob) {
-            await AdMob.initialize();
-            
-            // iOS tracking permission
-            // await AdMob.requestTrackingAuthorization();
+        // Initialize AdMob
+        const { status } = await AdMob.trackingAuthorizationStatus();
+        
+        // Only request if not determined (iOS 14+)
+        if (status === 'notDetermined') {
+             await AdMob.requestTrackingAuthorization();
         }
+
+        await AdMob.initialize({
+            requestTrackingAuthorization: true,
+            initializeForTesting: true, // Set to false for production if needed, but safe for now
+        });
+        
     } catch (e) {
         console.error("AdMob Init Failed", e);
     }
@@ -76,27 +83,26 @@ export const showBottomBanner = async () => {
     if (!isNativePlatform()) return;
 
     try {
-        const AdMob = (window as any).Capacitor?.Plugins?.AdMob;
-        if (AdMob) {
-             const platform = getPlatform();
-             
-             // --- CONFIGURATION ---
-             // To use REAL ADS: set useRealAds = true;
-             // To use TEST ADS: set useRealAds = false; (Recommended for Development)
-             const useRealAds = true; 
+         const platform = getPlatform();
+         
+         // --- CONFIGURATION ---
+         // To use REAL ADS: set useRealAds = true;
+         // To use TEST ADS: set useRealAds = false; (Recommended for Development)
+         const useRealAds = false; 
 
-             const adId = useRealAds 
-                ? adConfig.production.banner 
-                : (platform === 'ios' ? adConfig.ios.banner : adConfig.android.banner);
+         const adId = useRealAds 
+            ? adConfig.production.banner 
+            : (platform === 'ios' ? adConfig.ios.banner : adConfig.android.banner);
 
-             const options = {
-                adId: adId, 
-                isTesting: !useRealAds, // True for Test IDs, False for Real IDs
-                position: 'BOTTOM',
-                margin: 0
-             };
-             await AdMob.showBanner(options);
-        }
+         const options: BannerAdOptions = {
+            adId: adId, 
+            adSize: BannerAdSize.ADAPTIVE_BANNER,
+            position: BannerAdPosition.BOTTOM,
+            margin: 0,
+            isTesting: !useRealAds
+         };
+         
+         await AdMob.showBanner(options);
     } catch (e) {
         console.error("AdMob Show Failed", e);
     }
@@ -105,8 +111,7 @@ export const showBottomBanner = async () => {
 export const hideBanner = async () => {
     if (!isNativePlatform()) return;
     try {
-        const AdMob = (window as any).Capacitor?.Plugins?.AdMob;
-        if (AdMob) await AdMob.hideBanner();
+        await AdMob.hideBanner();
     } catch (e) {}
 };
 
