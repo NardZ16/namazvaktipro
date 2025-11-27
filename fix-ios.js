@@ -20,11 +20,12 @@ target 'App' do
   # Capacitor Plugins (Manually added based on package.json dependencies)
   pod 'CapacitorApp', :path => '../../node_modules/@capacitor/app'
   pod 'CapacitorHaptics', :path => '../../node_modules/@capacitor/haptics'
+  
+  # AdMob Plugin
+  # We do NOT manually add Google-Mobile-Ads-SDK here.
+  # This plugin's podspec already declares the correct dependency.
+  # Letting CocoaPods resolve it automatically prevents version mismatch errors.
   pod 'CapacitorCommunityAdmob', :path => '../../node_modules/@capacitor-community/admob'
-
-  # CRITICAL: Pin Google Ads SDK to v10 to work with AdMob Plugin v5
-  # This prevents the build from fetching the broken v11 SDK
-  pod 'Google-Mobile-Ads-SDK', '~> 10.12.0'
 end
 `;
 
@@ -32,7 +33,7 @@ try {
   // Only write if the directory exists (meaning ios platform was added)
   if (fs.existsSync(podfileDir)) {
     fs.writeFileSync(podfilePath, podfileContent);
-    console.log('✅ Podfile generated successfully. Google Ads SDK pinned to v10.12.0 (Stable).');
+    console.log('✅ Podfile generated successfully. Auto-resolving dependencies.');
   } else {
     console.log('⚠️ ios/App directory not found. Podfile generation skipped (will run later).');
   }
